@@ -37,6 +37,16 @@ android {
 }
 ```
 
+Step 4. (Optional) When you wants to debug your app in Android Oreo you shoud add the blow code to your build.gradle. Pls ref to https://issuetracker.google.com/issues/65941637 for more info.
+```
+android {
+    ……
+    packagingOptions {
+        exclude 'lib/x86_64/darwin/libscrypt.dylib'
+    }
+   ……
+}
+```
 ## Try the API
 ### Init the storage to store the keystore file
 ```
@@ -84,7 +94,7 @@ System.out.println(String.format("Keystore: %s", json));
 
 ### SignTransaction
 ```java
-EthereumTransaction tran = WalletManager.ethSign(BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit, String to, BigInteger value, String data)
+EthereumTransaction tran = new EthereumTransaction(BigInteger nonce, BigInteger gasPrice, BigInteger gasLimit, String to, BigInteger value, String data)
 TxSignResult result = tran.signTransaction(chainId, SampleKey.PASSWORD, ethereumWallet);
 String signedTx = result.getSignedTx(); // This is the signature result which you need to broadcast.
 String txHash = result.getTxHash(); // This is txHash which you can use for locating your transaction record
